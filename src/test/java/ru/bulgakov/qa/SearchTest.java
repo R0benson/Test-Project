@@ -3,6 +3,9 @@ package ru.bulgakov.qa;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
+import pages.WelcomePage;
+import pages.YandexSearchPage;
+import pages.YandexSearchResultsPage;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
@@ -23,15 +26,18 @@ public class SearchTest {
     @Test
     void ProbniyTest() {
         Configuration.holdBrowserOpen = true;
+        YandexSearchPage yandexSearchPage = new YandexSearchPage();
+        WelcomePage welcomePage = new WelcomePage();
+
     open("https://ya.ru/");
-    $("#text").setValue("wikipedia").pressEnter();
-    sleep(2000);
-    $(".DistributionButtonClose").click();
-    sleep(2000);
-    $(byText("wikipedia.org")).click();
-    switchTo().window(1);
-    $("#searchInput").setValue("Java").pressEnter();
-    $("#mwAg").shouldHave(text("Эта статья — о языке программирования. О прикладной платформе на основе данного языка см. Java (программная платформа)."));
+    yandexSearchPage
+            .search("wikipedia")
+            .DistributionButtonClose()
+            .OpenLinkWebsite("wikipedia.org");
+        switchTo().window(1);
+        welcomePage.search("Java")
+                        .checkInfo();
+
     }
 }
 

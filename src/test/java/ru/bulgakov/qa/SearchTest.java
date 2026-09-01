@@ -1,14 +1,11 @@
 package ru.bulgakov.qa;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import pages.WelcomePage;
-import pages.YandexSearchPage;
-import pages.YandexSearchResultsPage;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
+import ru.bulgakov.qa.pages.WikiMainPage;
+import ru.bulgakov.qa.pages.YandexSearchPage;
+import ru.bulgakov.qa.Constant;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SearchTest {
@@ -23,20 +20,24 @@ public class SearchTest {
      * 7. Нажать кнопку "Найти"
      * 8. проверить, что выдает статью о Джаве
      */
-    @Test
-    void ProbniyTest() {
-        Configuration.holdBrowserOpen = true;
-        YandexSearchPage yandexSearchPage = new YandexSearchPage();
-        WelcomePage welcomePage = new WelcomePage();
+    @BeforeAll
+    static void setUp() {
+        Configuration.browserSize = "1920x1080";
+        Configuration.pageLoadTimeout = 30000;
+        Configuration.timeout = 10000;
+    }
 
-    open("https://ya.ru/");
-    yandexSearchPage
-            .search("wikipedia")
-            .DistributionButtonClose()
-            .OpenLinkWebsite("wikipedia.org");
-        switchTo().window(1);
-        welcomePage.search("Java")
-                        .checkInfo();
+    @Test
+    void javaArticleShouldOpenFromYandexTest() {
+
+        open(Constant.YANDEX_URL, YandexSearchPage.class)
+                .search("wikipedia")
+                .closeDistributionBanner()
+                .openLinkWebsite(Constant.WIKIPEDIA_HOST)
+                .switchToWindow(1, WikiMainPage.class)
+                .search("Java")
+                .checkTitle("Java")
+                .checkInfo("язык программирования");
 
     }
 }

@@ -1,4 +1,4 @@
-package ru.bulgakov.qa;
+package mentor.qa;
 
 public class Constant {
     public static final String YANDEX_URL = "https://ya.ru/";

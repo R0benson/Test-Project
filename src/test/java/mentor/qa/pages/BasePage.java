@@ -1,4 +1,4 @@
-package ru.bulgakov.qa.pages;
+package mentor.qa.pages;
 
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.switchTo;

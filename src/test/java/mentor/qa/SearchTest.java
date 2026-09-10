@@ -1,11 +1,11 @@
-package ru.bulgakov.qa;
+package mentor.qa;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.bulgakov.qa.pages.WikiMainPage;
-import ru.bulgakov.qa.pages.YandexSearchPage;
-import ru.bulgakov.qa.Constant;
+import mentor.qa.pages.WikiMainPage;
+import mentor.qa.pages.YandexSearchPage;
+
 import static com.codeborne.selenide.Selenide.*;
 
 public class SearchTest {

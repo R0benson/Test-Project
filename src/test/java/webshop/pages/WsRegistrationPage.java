@@ -2,6 +2,7 @@ package webshop.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -31,46 +32,57 @@ public class WsRegistrationPage {
                 .checkRegistrationCompleted();
         return this;
     }
-
+    @Step("Проверяем дейсттвительно ли открылась страница регистрации")
     public WsRegistrationPage verifyRegistrationOpened() {
         pageTitle.shouldHave(text("Register"));
         return this;
     }
-
+    @Step("Выбираем гендер")
     public WsRegistrationPage selectMalesGender() {
         maleGenderRadio.click();
         return this;
     }
-
+    @Step("Вводим имя {firstName}")
     public WsRegistrationPage enterFirstName(String firstName) {
         firstNameInput.setValue(firstName);
         return this;
     }
+    @Step("Вводим фамилию {lastName}")
     public WsRegistrationPage enterLastName(String lastName) {
         lastNameInput.setValue(lastName);
         return this;
     }
+    @Step("Вводим почту {email}")
     public WsRegistrationPage enterEmail(String email) {
         emailInput.setValue(email);
         return this;
     }
+    @Step("Вводим пароль {password}")
+
     public WsRegistrationPage enterPassword(String password) {
         passwordInput.setValue(password);
         return this;
     }
+    @Step("Подтверждаем пароль {confirmPassword}")
+
     public WsRegistrationPage enterConfirmPassword(String confirmPassword) {
         confirmPasswordInput.setValue(confirmPassword);
         return this;
     }
+    @Step("Подтверждаем регистрацию")
+
     public WsRegistrationPage submitRegistration() {
         clickRegisterButton.click();
         return this;
     }
+    @Step("Проверяем действительно ли мы зарегистрировались")
+
     public WsRegistrationPage checkRegistrationCompleted() {
         $("div.result").shouldHave(text("Your registration completed"));
         resultText.shouldHave(text("Your registration completed"));
         return this;
     }
+    @Step("Проверяем отображение нашего email после регистрации {email}")
     public WsRegistrationPage checkEmailShown(String email) {
         $("div.result").shouldHave(text("Your registration completed"));
         headerLinks.get(0).shouldHave(text(email));

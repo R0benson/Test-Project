@@ -2,6 +2,7 @@ package webshop.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -22,43 +23,59 @@ public class WsMainPage {
         private final SelenideElement itemName = $("[itemprop=name]");
         private final SelenideElement itemPrice = $("[itemprop=price]");
 
-        public WsMainPage hoverCategoryComputers() {
+    @Step("Наводимся на категорию")
+
+    public WsMainPage hoverCategoryComputers() {
             selectCategoryComputersDesktops.get(1).hover();
 
             return this;
         }
+    @Step("Выбираем категорию")
+
     public WsMainPage clickTypeComputer() {
         selectTypeComputer.click();
 
         return this;
     }
+    @Step("Выбираем первый товар из категории")
+
     public WsMainPage selectFirstItemFromList() {
         selectItem.get(0).click();
 
         return this;
     }
+    @Step("Выбираем кол-во товара {itemQuantity}")
+
     public WsMainPage setQuantityItem(String itemQuantity) {
         setQuantity.setValue(itemQuantity);
         return this;
     }
+    @Step("Выбираем тип процессора")
+
     public WsMainPage selectProcessor(int index) {
         processors.get(index).click();
 
         return this;
     }
+    @Step("Нажимаем добавить в корзину")
+
     public WsMainPage clickAddCartButton() {
         addCartButton.click();
         return this;
     }
+    @Step("Проверяем появилось ли уведомление")
+
     public WsMainPage checkNotification() {
         notification.shouldBe(visible);
 
         return this;
     }
+    @Step("Проверяем кол-во товара в корзине {itemQuantity}")
     public WsMainPage checkQuantityItemInCart(String Quantity) {
         quantityInCart.shouldHave(text("(" + Quantity + ")"));
         return this;
     }
+    @Step("Переходим в корзину")
     public WsMainPage clickOnTheCart() {
         goToTheCart.click();
         return this;

@@ -1,14 +1,19 @@
 package mentor.qa;
 
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import mentor.qa.pages.WikiMainPage;
 import mentor.qa.pages.YandexSearchPage;
+import webshop.test.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 
-public class SearchTest {
+public class SearchTest extends TestBase {
     /*
      * Тест-кейс - проверить, что поиск статьи на википедии работает корректно
      * 1. открыть поисковик (Яндекс)
@@ -28,12 +33,20 @@ public class SearchTest {
     }
 
     @Test
+    @Owner("Nikita")
+    @Tag("possitive")
+    @Severity(CRITICAL)
+    @Feature("Поиск нужной информации в Яндекс")
+    @Story("Поиск и проверка информации на сайте Java")
+    @Link(name = "TASK-124",url = "https://qafeelsgood.kaiten.ru/space/827937/boards/card/69506527")
+    @DisplayName("Успешный поиск сайта в яндекс и проверка информации на нем")
+    @Description("Проверяем поиск сайта wikipedia в Яндекс, а также проверку информации на нем")
     void javaArticleShouldOpenFromYandexTest() {
 
-        open(Constant.YANDEX_URL, YandexSearchPage.class)
+        open(mentor.qa.Constant.YANDEX_URL, YandexSearchPage.class)
                 .search("wikipedia")
                 .closeDistributionBanner()
-                .openLinkWebsite(Constant.WIKIPEDIA_HOST)
+                .openLinkWebsite(mentor.qa.Constant.WIKIPEDIA_HOST)
                 .switchToWindow(1, WikiMainPage.class)
                 .search("Java")
                 .checkTitle("Java")

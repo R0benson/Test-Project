@@ -1,50 +1,73 @@
 package webshop.test;
 
+import io.qameta.allure.*;
 import net.datafaker.Faker;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import webshop.pages.WsLoginPage;
 import webshop.pages.WsRegistrationPage;
 import webshop.pages.WsWelcomePage;
 
 import static com.codeborne.selenide.Selenide.*;
-import static webshop.config.config.WEB_SHOP_REGISTRATION_URL;
-import static webshop.config.config.WEB_SHOP_URL;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
+import static webshop.config.config.*;
 
-public class LoginTest {
+public class LoginTest extends TestBase {
     private static final Faker faker = new Faker();
     private String email;
     private String password;
 
- @BeforeEach
-    void beforeAll() {
-     password = faker.camera().model() + faker.number().positive();
-     email = faker.internet().emailAddress();
+    @Nested
+    public class PositiveTests {
+        @BeforeEach
+        void BeforeEach() {
+            password = faker.camera().model() + faker.number().positive();
+            email = faker.internet().emailAddress();
 
-        open(WEB_SHOP_REGISTRATION_URL, WsRegistrationPage.class)
-                .register(
-                        faker.name().firstName(),
-                        faker.name().lastName(),
-                        email,
-                        password)
-                .checkEmailShown(email);
+            open(WEB_SHOP_REGISTRATION_URL, WsRegistrationPage.class)
+                    .register(
+                            faker.name().firstName(),
+                            faker.name().lastName(),
+                            email,
+                            password)
+                    .checkEmailShown(email);
 
 
-        clearBrowserCookies();
-        clearBrowserLocalStorage();
+            clearBrowserCookies();
+            clearBrowserLocalStorage();
+        }
+
+        @Test
+        @Owner("Nikita")
+        @Tag("possitive")
+        @Severity(CRITICAL)
+        @Feature("Авторизация пользователя")
+        @Story("Авторизация пользователя в учетную запись")
+        @Link(name = "TASK-123",url = "https://qafeelsgood.kaiten.ru/space/827937/boards/card/69506527")
+        @DisplayName("Успешная авторизация пользователя")
+        @Description("Производим авторизацию пользователя")
+        void succesLoginTest() {
+
+            open(WEB_SHOP_URL, WsLoginPage.class)
+                    .openLoginPage()
+                    .checkLoginPageOpened()
+                    .enterEmail(email)
+                    .enterPassword(password)
+                    .clickRememberMe()
+                    .clickLoginButton()
+                    .checkEmail(email);
+            System.out.println(1);
+        }
     }
 
-    @Test
-    void succesLoginTest() {
-
-        open("https://demowebshop.tricentis.com/", WsLoginPage.class)
-                .openLoginPage()
-                .checkLoginPageOpened()
+    @ParameterizedTest(name = "Авторизация с невалидным email: {0} ")
+    @CsvFileSource(resources = "/email.csv")
+    void invalidEmailLoginTest(String email) {
+        open(WEB_SHOP_LOGIN_URL, WsLoginPage.class)
                 .enterEmail(email)
-                .enterPassword(password)
-                .clickRememberMe()
-                .clickLoginButton()
-                .checkEmail(email);
-        System.out.println(1);
+                .enterPassword("password")
+                .verifyEmailValidationErrorAppear()
+                .clickLoginButton();
     }
 }

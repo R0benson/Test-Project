@@ -34,7 +34,7 @@ public class SearchTest extends TestBase {
 
     @Test
     @Owner("Nikita")
-    @Tag("possitive")
+    @Tag("positive")
     @Severity(CRITICAL)
     @Feature("Поиск нужной информации в Яндекс")
     @Story("Поиск и проверка информации на сайте Java")

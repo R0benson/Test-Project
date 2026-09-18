@@ -28,11 +28,10 @@ public class WsRegistrationPage {
                 .enterEmail(email)
                 .enterPassword(password)
                 .enterConfirmPassword(password)
-                .submitRegistration()
-                .checkRegistrationCompleted();
+                .submitRegistration();
         return this;
     }
-    @Step("Проверяем дейсттвительно ли открылась страница регистрации")
+    @Step("Проверяем действительно ли открылась страница регистрации")
     public WsRegistrationPage verifyRegistrationOpened() {
         pageTitle.shouldHave(text("Register"));
         return this;
@@ -58,33 +57,27 @@ public class WsRegistrationPage {
         return this;
     }
     @Step("Вводим пароль {password}")
-
     public WsRegistrationPage enterPassword(String password) {
         passwordInput.setValue(password);
         return this;
     }
     @Step("Подтверждаем пароль {confirmPassword}")
-
     public WsRegistrationPage enterConfirmPassword(String confirmPassword) {
         confirmPasswordInput.setValue(confirmPassword);
         return this;
     }
     @Step("Подтверждаем регистрацию")
-
     public WsRegistrationPage submitRegistration() {
         clickRegisterButton.click();
         return this;
     }
     @Step("Проверяем действительно ли мы зарегистрировались")
-
     public WsRegistrationPage checkRegistrationCompleted() {
-        $("div.result").shouldHave(text("Your registration completed"));
         resultText.shouldHave(text("Your registration completed"));
         return this;
     }
     @Step("Проверяем отображение нашего email после регистрации {email}")
     public WsRegistrationPage checkEmailShown(String email) {
-        $("div.result").shouldHave(text("Your registration completed"));
         headerLinks.get(0).shouldHave(text(email));
         return this;
     }

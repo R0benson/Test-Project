@@ -7,11 +7,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import webshop.pages.WsLoginPage;
 import webshop.pages.WsRegistrationPage;
-import webshop.pages.WsWelcomePage;
 
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.SeverityLevel.CRITICAL;
-import static webshop.config.config.*;
+import static webshop.config.WebShopConfig.*;
 
 public class LoginTest extends TestBase {
     private static final Faker faker = new Faker();
@@ -31,6 +30,7 @@ public class LoginTest extends TestBase {
                             faker.name().lastName(),
                             email,
                             password)
+                    .checkRegistrationCompleted()
                     .checkEmailShown(email);
 
 
@@ -40,14 +40,14 @@ public class LoginTest extends TestBase {
 
         @Test
         @Owner("Nikita")
-        @Tag("possitive")
+        @Tag("positive")
         @Severity(CRITICAL)
         @Feature("Авторизация пользователя")
         @Story("Авторизация пользователя в учетную запись")
         @Link(name = "TASK-123",url = "https://qafeelsgood.kaiten.ru/space/827937/boards/card/69506527")
         @DisplayName("Успешная авторизация пользователя")
         @Description("Производим авторизацию пользователя")
-        void succesLoginTest() {
+        void successLoginTest() {
 
             open(WEB_SHOP_URL, WsLoginPage.class)
                     .openLoginPage()
@@ -57,17 +57,15 @@ public class LoginTest extends TestBase {
                     .clickRememberMe()
                     .clickLoginButton()
                     .checkEmail(email);
-            System.out.println(1);
         }
     }
-
     @ParameterizedTest(name = "Авторизация с невалидным email: {0} ")
     @CsvFileSource(resources = "/email.csv")
     void invalidEmailLoginTest(String email) {
         open(WEB_SHOP_LOGIN_URL, WsLoginPage.class)
                 .enterEmail(email)
                 .enterPassword("password")
-                .verifyEmailValidationErrorAppear()
-                .clickLoginButton();
+                .clickLoginButton()
+                .verifyEmailValidationErrorAppear();
     }
 }
